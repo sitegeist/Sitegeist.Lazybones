@@ -1,0 +1,85 @@
+prototype(Sitegeist.Lazybones:Image) < prototype(Neos.Fusion:Component) {
+    @styleguide {
+        props {
+            imageSource = Sitegeist.Kaleidoscope:DummyImageSource
+            alt = 'Elva dressed as a fairy'
+        }
+
+        propSets {
+            multires_array {
+                srcset = ${['1x', '1.5x', '2x']}
+            }
+
+            multires_string {
+                srcset = '1x, 1.5x, 2x'
+            }
+
+            multisize_array {
+                srcset = ${['320w', '400w', '600w', '800w', '1000w', '1200w', '1600']}
+            }
+
+            multisize_string {
+                srcset = '320w, 400ww, 600w, 800w, 1000w, 1200w, 1600'
+            }
+
+            sizes_array {
+                srcset = ${['320w', '400w', '600w', '800w', '1000w', '1200w', '1600']}
+                sizes = ${['(max-width: 320px) 280px', '(max-width: 480px) 440px', '800px']}
+            }
+
+            sizes_string {
+                srcset = '320w, 400ww, 600w, 800w, 1000w, 1200w, 1600'
+                sizes = '(max-width: 320px) 280px, (max-width: 480px) 440px, 800px'
+            }
+        }
+    }
+
+    @propTypes {
+        imageSource = ${PropTypes.instanceOf('\\Sitegeist\\Kaleidoscope\\EelHelpers\\ImageSourceHelperInterface')}
+    }
+
+    lazy = ${Configuration.setting('Sitegeist.Lazybones.enable')}
+    lazyClassName = ${Configuration.setting('Sitegeist.Lazybones.className')}
+    lazyWidth = ${Configuration.setting('Sitegeist.Lazybones.width')}
+
+    imageSource = null
+    srcset = null
+    sizes = null
+    alt = null
+    title = null
+    class = null
+
+    renderer = Neos.Fusion:Case {
+
+        lazy {
+            condition = ${props.lazy}
+            renderer = afx`
+                <img @if.has={props.imageSource}
+                    src={props.lazyWidth ? props.imageSource.setWidth(props.lazyWidth) : null}
+
+                    data-src={props.imageSource}
+                    data-srcset={props.imageSource.srcset(props.srcset)}
+                    data-srcset.@if.has={props.srcset}
+                    data-sizes={props.sizes}
+                    data-sizes.@process.join={Type.isArray(value) ? Array.join(value, ', ') : value}
+
+                    class={props.class ? props.class + ' ' + props.lazyClassName : props.lazyClassName}
+                    alt={props.alt}
+                    title={props.title}
+                />
+            `
+        }
+
+        default {
+            condition = true
+            renderer = Sitegeist.Kaleidoscope:Image {
+                imageSource = ${props.imageSource}
+                srcset = ${props.srcset}
+                sizes = ${props.sizes}
+                alt = ${props.alt}
+                title = ${props.title}
+                class = ${props.class}
+            }
+        }
+    }
+}

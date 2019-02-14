@@ -1,0 +1,11 @@
+Neos:
+  Neos:
+    fusion:
+      autoInclude:
+        Sitegeist.Lazybones: true
+
+Sitegeist:
+  Lazybones:
+    enable: true
+    className: 'lazyload'
+    width: 70

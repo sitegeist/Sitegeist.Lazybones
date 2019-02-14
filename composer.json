@@ -1,0 +1,18 @@
+{
+    "description": "",
+    "type": "neos-package",
+    "name": "sitegeist/lazybones",
+    "require": {
+        "sitegeist/kaleidoscope": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sitegeist\\Lazybones\\": "Classes/"
+        }
+    },
+    "extra": {
+        "neos": {
+            "package-key": "Sitegeist.Lazybones"
+        }
+    }
+}
