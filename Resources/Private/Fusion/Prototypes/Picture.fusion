@@ -23,9 +23,9 @@ prototype(Sitegeist.Lazybones:Picture) < prototype(Neos.Fusion:Component) {
         }
     }
 
-    lazy = ${Configuration.setting('Sitegeist.Lazybones.enable')}
-    lazyClassName = ${Configuration.setting('Sitegeist.Lazybones.className')}
-    lazyWidth = ${Configuration.setting('Sitegeist.Lazybones.width')}
+    lazy = true
+    lazyClass = "lazyload"
+    lazyWidth = null
 
     imageSource = Sitegeist.Kaleidoscope:DummyImageSource
     srcset = null
@@ -40,7 +40,7 @@ prototype(Sitegeist.Lazybones:Picture) < prototype(Neos.Fusion:Component) {
         lazy {
             condition = ${props.lazy}
             renderer = afx`
-                <picture @if.has={props.imageSource} class={props.class ? props.class + ' ' + props.lazyClassName : props.lazyClassName }>
+                <picture @if.has={props.imageSource} class={props.class ? props.class + ' ' + props.lazyClass : props.lazyClass }>
                     <Neos.Fusion:Collection collection={props.sources} itemName="source" @children="itemRenderer" @if.has={props.sources}>
                         <source
                             @context.subImageSource={source.imageSource ? source.imageSource : props.imageSource}
@@ -52,7 +52,7 @@ prototype(Sitegeist.Lazybones:Picture) < prototype(Neos.Fusion:Component) {
                     </Neos.Fusion:Collection>
                     <Sitegeist.Lazybones:Image
                         lazy={props.lazy}
-                        lazyClassName={props.lazyClassName}
+                        lazyClass={props.lazyClass}
                         lazyWidth={props.lazyWidth}
 
                         imageSource={props.imageSource}

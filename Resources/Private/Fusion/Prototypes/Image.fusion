@@ -38,9 +38,9 @@ prototype(Sitegeist.Lazybones:Image) < prototype(Neos.Fusion:Component) {
         imageSource = ${PropTypes.instanceOf('\\Sitegeist\\Kaleidoscope\\EelHelpers\\ImageSourceHelperInterface')}
     }
 
-    lazy = ${Configuration.setting('Sitegeist.Lazybones.enable')}
-    lazyClassName = ${Configuration.setting('Sitegeist.Lazybones.className')}
-    lazyWidth = ${Configuration.setting('Sitegeist.Lazybones.width')}
+    lazy = true
+    lazyClass = "lazyload"
+    lazyWidth = null
 
     imageSource = null
     srcset = null
@@ -63,7 +63,7 @@ prototype(Sitegeist.Lazybones:Image) < prototype(Neos.Fusion:Component) {
                     data-sizes={props.sizes}
                     data-sizes.@process.join={Type.isArray(value) ? Array.join(value, ', ') : value}
 
-                    class={props.class ? props.class + ' ' + props.lazyClassName : props.lazyClassName}
+                    class={props.class ? props.class + ' ' + props.lazyClass : props.lazyClass}
                     alt={props.alt}
                     title={props.title}
                 />
