@@ -71,7 +71,7 @@ Props from `Sitegeist.Kaleidoscope:Image`:
 
 ### `Sitegeist.Lazybones:Picture`
 
-Render apicture`-tag with various sources.
+Render a picture-tag with various sources.
 
 This prototype is a drop in replacement for `Sitegeist.Kaleidoscope:Picture` with
 optional props to control the lazy loading.

@@ -1,7 +1,8 @@
 {
-    "description": "",
+    "description": "Lazy loading for sitegeist/kaleidoscope",
     "type": "neos-package",
     "name": "sitegeist/lazybones",
+    "license": "GPL-3.0-or-later",
     "require": {
         "sitegeist/kaleidoscope": "*"
     },
