@@ -100,6 +100,28 @@ Props from `Sitegeist.Kaleidoscope:Picture`:
 - `title`: title attribute for the picture tag
 - `class`: class attribute for the picture tag
 
+## Optimizing the rendering
+
+To optimize the intial load time lazy loading should be disabled for the first contents but be enabled for others. This can be implemented by enabeling the `lazy` in the `ContentCase` prototype depending on wether or not the curent `node` has previous siblings or not.
+
+*ATTENTION: If you use nested contents like multicolumns or sliders this conditions has to be extended. This is just an example to demonstrate the simple case of a plain content collection.*
+
+```
+prototype(Neos.Neos:ContentCase) {
+    prototype(Sitegeist.Lazybones:Image) {
+        # if the current node has previous siblings it is not the 
+        # first content and should be loaded lazy otherwise not       
+        lazy = ${q(node).prev().is()}
+    }
+
+    prototype(Sitegeist.Lazybones:Picture) {
+        # if the current node has previous siblings it is not the 
+        # first content and should be loaded lazy otherwise not       
+        lazy = ${q(node).prev().is()}
+    }
+}
+```
+
 ## Contribution
 
 We will gladly accept contributions. Please send us pull requests.
