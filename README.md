@@ -1,7 +1,8 @@
 # Sitegeist.Lazybones
-## Image Lazy Loading based on Sitegeist.Kaleidoscope (Responsive Images for Neos - with Atomic.Fusion & Monocle in mind)
+## Image Lazy Loading based on Sitegeist.Kaleidoscope 
+### Responsive Images for Neos - with Atomic.Fusion & Monocle in mind
 
-This package implements Lazy Loading for Responsive Images from the Sitegeist.Kaleidoscope package.
+This package implements Lazy Loading for Responsive Images from the [Sitegeist.Kaleidoscope](https://github.com/sitegeist/Sitegeist.Kaleidoscope) package.
 
 This is implemented by rendering the `src`, `srcset` and `sizes` attributes as `data-src`, `data-srcset`
 and `data-sizes`. The img- or pPicture-tag is then marked with the class `lazyload` to
