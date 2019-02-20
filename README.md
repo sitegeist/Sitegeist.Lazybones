@@ -1,5 +1,4 @@
 # Sitegeist.Lazybones
-## Image Lazy Loading based on Sitegeist.Kaleidoscope 
 ### Responsive Images for Neos - with Atomic.Fusion & Monocle in mind
 
 This package implements Lazy Loading for Responsive Images from the [Sitegeist.Kaleidoscope](https://github.com/sitegeist/Sitegeist.Kaleidoscope) package.
