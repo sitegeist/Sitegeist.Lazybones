@@ -102,22 +102,18 @@ Props from `Sitegeist.Kaleidoscope:Picture`:
 
 ## Dynamically enable/disable the lazy rendering
 
-To optimize the intial load time lazy loading should be disabled for the first contents but be enabled for others. This can be implemented by enabeling the `lazy` in the `ContentCase` prototype depending on wether or not the curent `node` has previous siblings or not.
-
-*ATTENTION: If you use nested contents like multicolumns or sliders this conditions has to be extended. This is just an example to demonstrate the simple case of a plain content collection.*
+To optimize the intial load time lazy loading should be disabled for the first contents but be enabled for others. This can be implemented by enabeling the `lazy` in the `ContentCase` prototype depending on wether or not the curent `node` is the first content in the main collection.
 
 ```
-prototype(Neos.Neos:ContentCase) {
-    prototype(Sitegeist.Lazybones:Image) {
-        # if the current node has previous siblings it is not the 
-        # first content and should be loaded lazy otherwise not       
-        lazy = ${q(node).prev().is()}
-    }
+content = Neos.Neos:ContentCollection {
+    nodePath = 'main'
+    content.iterationName = 'mainContentIterator'
 
     prototype(Sitegeist.Lazybones:Picture) {
-        # if the current node has previous siblings it is not the 
-        # first content and should be loaded lazy otherwise not       
-        lazy = ${q(node).prev().is()}
+        lazy = ${!mainContentIterator.isFirst}
+    }
+    prototype(Sitegeist.Lazybones:Image) {
+        lazy = ${!mainContentIterator.isFirst}
     }
 }
 ```
