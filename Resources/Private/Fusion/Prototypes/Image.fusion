@@ -55,7 +55,7 @@ prototype(Sitegeist.Lazybones:Image) < prototype(Neos.Fusion:Component) {
             condition = ${props.lazy}
             renderer = afx`
                 <img @if.has={props.imageSource}
-                    src={props.lazyWidth ? props.imageSource.setWidth(props.lazyWidth) : null}
+                    src={props.lazyWidth ? props.imageSource.setWidth(props.lazyWidth, true) : null}
 
                     data-src={props.imageSource}
                     data-srcset={props.imageSource.srcset(props.srcset)}
