@@ -4,7 +4,9 @@
     "name": "sitegeist/lazybones",
     "license": "GPL-3.0-or-later",
     "require": {
-        "sitegeist/kaleidoscope": "^3.2"
+        "neos/neos": "^4.3 || ^5.0 || dev-master",
+        "neos/fusion-afx": "^1.2",
+        "sitegeist/kaleidoscope": "^4.0"
     },
     "autoload": {
         "psr-4": {

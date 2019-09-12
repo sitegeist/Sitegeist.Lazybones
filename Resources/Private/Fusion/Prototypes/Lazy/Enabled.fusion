@@ -1,0 +1,3 @@
+prototype(Sitegeist.Lazybones:Lazy.Enabled) < prototype(Neos.Fusion:Value) {
+    value = true
+}

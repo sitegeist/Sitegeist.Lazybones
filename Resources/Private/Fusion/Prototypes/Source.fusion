@@ -1,0 +1,37 @@
+prototype(Sitegeist.Lazybones:Source) < prototype(Neos.Fusion:Component) {
+    @propTypes {
+        imageSource = ${PropTypes.instanceOf('\\Sitegeist\\Kaleidoscope\\EelHelpers\\ImageSourceHelperInterface')}
+    }
+
+    lazy = Sitegeist.Lazybones:Lazy.Enabled
+
+    imageSource = null
+    type = null
+    media = null
+    srcset = null
+    sizes = null
+
+    renderer = Neos.Fusion:Case {
+
+        lazy {
+            condition = ${props.lazy}
+            renderer = afx`
+                <source @if.has={props.imageSource}
+                    media={props.media}
+                    type={props.type}
+                    data-srcset={props.imageSource.srcset(props.srcset)}
+                    data-srcset.@if.has={props.srcset}
+                    data-sizes={props.sizes}
+                    data-sizes.@process.join={Type.isArray(value) ? Array.join(value, ', ') : value}
+                />
+            `
+        }
+
+        default {
+            condition = true
+            renderer = afx`
+                <Sitegeist.Kaleidoscope:Source {...props} />
+            `
+        }
+    }
+}

@@ -53,13 +53,10 @@ optional props to control the lazy loading.
 See: https://github.com/sitegeist/Sitegeist.Kaleidoscope#sitegeistkaleidoscopeimage
 
 Props:
-- `lazy`: Enable lazy loading (boolean, default true).
-   Use this to control whether contents should be lazy loaded or not. If this value
-   is false the `Sitegeist.Kaleidoscope:Image` is used directly.
-- `lazyClass`: The class to attach to the img-tags (string, default "lazyload").
-   Has to fit your js-library.
-- `lazyWidth`: The width of the thumbnail src that is loaded first (int, default null).
-   If this value is null no initial src is rendered to avoid any unneeded http-requests.
+- `lazy`: Enable lazy loading (boolean, defaults to `Sitegeist.Lazybones:Lazy.Enabled`)
+- `lazyClass`: The class to attach to the img-tags (string, defaults to `Sitegeist.Lazybones:Lazy.ClassName`)
+- `lazyWidth`: The width of the thumbnail-src that is loaded first  (string, defaults to `Sitegeist.Lazybones:Lazy.Width`)
+
 
 Props from `Sitegeist.Kaleidoscope:Image`:
 - `imageSource`: the imageSource to render
@@ -79,18 +76,15 @@ optional props to control the lazy loading.
 See: https://github.com/sitegeist/Sitegeist.Kaleidoscope#sitegeistkaleidoscopepicture
 
 Props:
-- `lazy`: Enable lazy loading (boolean, default true).
-   Use this to control whether contents should be lazy loaded or not. If this value
-   is false the `Sitegeist.Kaleidoscope:Picture` is used directly.
-- `lazyClass`: The class to attach to the img-tags (string, default "lazyload").
-   Has to fit your js-library.
-- `lazyWidth`: The width of the thumbnail-src that is loaded first (int, default null).
-   If this value is null no initial src is rendered to avoid any unneeded http-requests.
+- `lazy`: Enable lazy loading (boolean, defaults to `Sitegeist.Lazybones:Lazy.Enabled`)
+- `lazyClass`: The class to attach to the img-tags (string, defaults to `Sitegeist.Lazybones:Lazy.ClassName`)
+- `lazyWidth`: The width of the thumbnail-src that is loaded first  (string, defaults to `Sitegeist.Lazybones:Lazy.Width`)
 
 Props from `Sitegeist.Kaleidoscope:Picture`:
 - `imageSource`: the imageSource to render
 - `sources`: an array of source definitions that supports the following keys
    - `media`: the media query of this source
+   - `type`: the type of this source
    - `imageSource`: alternate image-source for art direction purpose
    - `srcset`: media descriptors like '1.5x' or '600w' (string ot array)
    - `sizes`: sizes attribute (string ot array)
@@ -99,6 +93,39 @@ Props from `Sitegeist.Kaleidoscope:Picture`:
 - `alt`: alt-attribute for the picture tag
 - `title`: title attribute for the picture tag
 - `class`: class attribute for the picture tag
+
+
+### `Sitegeist.Lazybones:Source`
+
+Render a source-tag with optional srcset based on sizes or resolutions.
+
+This prototype is a drop in replacement for `Sitegeist.Kaleidoscope:Source` with
+optional props to control the lazy loading.
+
+Props:
+- `lazy`: Enable lazy loading (boolean, defaults to `Sitegeist.Lazybones:Lazy.Enabled`)
+
+Props from `Sitegeist.Kaleidoscope:Source`:
+- `imageSource`: the imageSource to render
+- `srcset`: media descriptors like '1.5x' or '600w' of the default image (string ot array)
+- `sizes`: sizes attribute of the default image (string or array)
+- `media`: the media query of this source
+- `type`: the type of this source
+
+### `Sitegeist.Lazybones:Lazy.Enabled`
+
+Boolean value prototype with default value `true` that defines whether lazyness is enabled or not.
+Override the `value` of this prototype globally or for specific parts of your fusion. 
+
+### `Sitegeist.Lazybones:Lazy.ClassName`
+
+String value prototype with default value `lazyload` to define the class that marks lazyloaded images.
+Override the `value` of this prototype globally or for specific parts of your fusion. 
+
+### `Sitegeist.Lazybones:Lazy.Width`
+
+Integer value prototype with default value `null` to define the size of lowres images that are loaded as 
+placeholders. Override zhe `value` of this prototype globally or for specific parts of your fusion. 
 
 ## Dynamically enable/disable the lazy rendering
 
@@ -109,11 +136,14 @@ content = Neos.Neos:ContentCollection {
     nodePath = 'main'
     content.iterationName = 'mainContentIterator'
 
-    prototype(Sitegeist.Lazybones:Picture) {
-        lazy = ${!mainContentIterator.isFirst}
+    // enable lazynes for all but first content 
+    prototype(Sitegeist.Lazybones:Lazy.Enabled) {
+        value = ${!mainContentIterator.isFirst}
     }
-    prototype(Sitegeist.Lazybones:Image) {
-        lazy = ${!mainContentIterator.isFirst}
+    
+    // preload 150px variants of the images 
+    prototype(Sitegeist.Lazybones:Lazy.Width) {
+        value = 150
     }
 }
 ```

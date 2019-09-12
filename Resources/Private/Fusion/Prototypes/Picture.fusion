@@ -23,9 +23,9 @@ prototype(Sitegeist.Lazybones:Picture) < prototype(Neos.Fusion:Component) {
         }
     }
 
-    lazy = true
-    lazyClass = "lazyload"
-    lazyWidth = null
+    lazy = Sitegeist.Lazybones:Lazy.Enabled
+    lazyClass = Sitegeist.Lazybones:Lazy.ClassName
+    lazyWidth = Sitegeist.Lazybones:Lazy.Width
 
     imageSource = Sitegeist.Kaleidoscope:DummyImageSource
     srcset = null
@@ -42,12 +42,13 @@ prototype(Sitegeist.Lazybones:Picture) < prototype(Neos.Fusion:Component) {
             renderer = afx`
                 <picture @if.has={props.imageSource} class={props.class ? props.class + ' ' + props.lazyClass : props.lazyClass }>
                     <Neos.Fusion:Collection collection={props.sources} itemName="source" @children="itemRenderer" @if.has={props.sources}>
-                        <source
-                            @context.subImageSource={source.imageSource ? source.imageSource : props.imageSource}
+                        <Sitegeist.Lazybones:Source
+                            lazy={props.lazy}
+                            imageSource={source.imageSource ? source.imageSource : props.imageSource}
+                            type={source.type}
                             media={source.media}
-                            data-srcset={source.srcset ? subImageSource.srcset(source.srcset) : subImageSource.src()}
-                            data-sizes={source.sizes}
-                            data-sizes.@process.join={Type.isArray(value) ? Array.join(value, ', ') : value}
+                            srcset={source.srcset ? source.srcset : props.srcset}
+                            sizes={source.sizes ? source.sizes : props.sizes}
                         />
                     </Neos.Fusion:Collection>
                     <Sitegeist.Lazybones:Image
@@ -67,15 +68,9 @@ prototype(Sitegeist.Lazybones:Picture) < prototype(Neos.Fusion:Component) {
 
         default {
             condition = true
-            renderer = Sitegeist.Kaleidoscope:Picture {
-                imageSource = ${props.imageSource}
-                srcset = ${props.srcset}
-                sizes = ${props.sizes}
-                sources = ${props.sources}
-                alt = ${props.alt}
-                title = ${props.title}
-                class = ${props.class}
-            }
+            renderer = afx`
+                <Sitegeist.Kaleidoscope:Picture {...props} />
+            `
         }
     }
 }
