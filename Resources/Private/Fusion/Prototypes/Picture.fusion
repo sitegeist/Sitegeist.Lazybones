@@ -34,6 +34,7 @@ prototype(Sitegeist.Lazybones:Picture) < prototype(Neos.Fusion:Component) {
     alt = null
     title = null
     class = null
+    content = ''
 
     renderer = Neos.Fusion:Case {
 
@@ -41,6 +42,7 @@ prototype(Sitegeist.Lazybones:Picture) < prototype(Neos.Fusion:Component) {
             condition = ${props.lazy}
             renderer = afx`
                 <picture @if.has={props.imageSource} class={props.class ? props.class + ' ' + props.lazyClass : props.lazyClass }>
+                    {props.content}
                     <Neos.Fusion:Collection collection={props.sources} itemName="source" @children="itemRenderer" @if.has={props.sources}>
                         <Sitegeist.Lazybones:Source
                             lazy={props.lazy}
@@ -69,7 +71,7 @@ prototype(Sitegeist.Lazybones:Picture) < prototype(Neos.Fusion:Component) {
         default {
             condition = true
             renderer = afx`
-                <Sitegeist.Kaleidoscope:Picture {...props} />
+                <Sitegeist.Kaleidoscope:Picture {...props} >{props.content}</Sitegeist.Kaleidoscope:Picture>
             `
         }
     }
