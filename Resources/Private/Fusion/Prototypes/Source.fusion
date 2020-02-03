@@ -21,8 +21,8 @@ prototype(Sitegeist.Lazybones:Source) < prototype(Neos.Fusion:Component) {
                     type={props.type}
                     data-srcset={props.imageSource.srcset(props.srcset)}
                     data-srcset.@if.has={props.srcset}
-                    data-sizes={props.sizes}
-                    data-sizes.@process.join={Type.isArray(value) ? Array.join(value, ', ') : value}
+                    sizes={props.sizes}
+                    sizes.@process.join={Type.isArray(value) ? Array.join(value, ', ') : value}
                 />
             `
         }
