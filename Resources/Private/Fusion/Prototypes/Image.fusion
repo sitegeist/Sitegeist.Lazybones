@@ -48,6 +48,7 @@ prototype(Sitegeist.Lazybones:Image) < prototype(Neos.Fusion:Component) {
     alt = null
     title = null
     class = null
+    dimensions = true
 
     renderer = Neos.Fusion:Case {
 
@@ -62,6 +63,9 @@ prototype(Sitegeist.Lazybones:Image) < prototype(Neos.Fusion:Component) {
                     data-srcset.@if.has={props.srcset}
                     data-sizes={props.sizes}
                     data-sizes.@process.join={Type.isArray(value) ? Array.join(value, ', ') : value}
+
+                    width={props.dimensions ? props.imageSource.currentWidth : null}
+                    height={props.dimensions ? props.imageSource.currentHeight : null}
 
                     class={props.class ? props.class + ' ' + props.lazyClass : props.lazyClass}
                     alt={props.alt}

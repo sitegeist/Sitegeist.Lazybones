@@ -27,14 +27,26 @@ prototype(Sitegeist.Lazybones:Picture) < prototype(Neos.Fusion:Component) {
     lazyClass = Sitegeist.Lazybones:Lazy.ClassName
     lazyWidth = Sitegeist.Lazybones:Lazy.Width
 
-    imageSource = Sitegeist.Kaleidoscope:DummyImageSource
+    imageSource = null
     srcset = null
     sizes = null
     sources = null
+    formats = null
     alt = null
     title = null
     class = null
     content = ''
+    dimensions = null
+
+    #
+    # put the values that shall be applied to sources automatically to the context
+    # to make them available to all props during evaluation
+    #
+    @context {
+        __imageSource = ${this.imageSource}
+        __srcset = ${this.srcset}
+        __sizes = ${this.sizes}
+    }
 
     renderer = Neos.Fusion:Case {
 
@@ -43,15 +55,23 @@ prototype(Sitegeist.Lazybones:Picture) < prototype(Neos.Fusion:Component) {
             renderer = afx`
                 <picture @if.has={props.imageSource} class={props.class ? props.class + ' ' + props.lazyClass : props.lazyClass }>
                     {props.content}
-                    <Neos.Fusion:Collection collection={props.sources} itemName="source" @children="itemRenderer" @if.has={props.sources}>
+                    <Neos.Fusion:Collection collection={props.sources} itemName="source" @if.has={props.sources}>
                         <Sitegeist.Lazybones:Source
                             lazy={props.lazy}
                             imageSource={source.imageSource ? source.imageSource : props.imageSource}
                             type={source.type}
                             media={source.media}
+                            format={source.format}
                             srcset={source.srcset ? source.srcset : props.srcset}
                             sizes={source.sizes ? source.sizes : props.sizes}
                         />
+                    </Neos.Fusion:Collection>
+                    <Neos.Fusion:Collection
+                        @if.has={props.imageSource && props.formats}
+                        collection={Type.isArray(props.formats) ? props.formats : String.split(props.formats, ',')}
+                        itemName="format"
+                    >
+                        <Sitegeist.Lazybones:Source format={String.trim(format)} />
                     </Neos.Fusion:Collection>
                     <Sitegeist.Lazybones:Image
                         lazy={props.lazy}
@@ -63,6 +83,10 @@ prototype(Sitegeist.Lazybones:Picture) < prototype(Neos.Fusion:Component) {
                         srcset={props.srcset}
                         alt={props.alt}
                         title={props.title}
+
+                        dimensions={!props.content && !props.sources}
+                        dimensions.@override.fromProps={props.dimensions}
+                        dimensions.@override.fromProps.@if.isBoolean={Type.isBoolean(props.dimensions)}
                     />
                 </picture>
             `

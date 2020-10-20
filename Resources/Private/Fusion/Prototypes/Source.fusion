@@ -5,26 +5,43 @@ prototype(Sitegeist.Lazybones:Source) < prototype(Neos.Fusion:Component) {
 
     lazy = Sitegeist.Lazybones:Lazy.Enabled
 
-    imageSource = null
+    imageSource = ${__imageSource}
+    srcset = ${__srcset}
+    sizes = ${__sizes}
     type = null
     media = null
-    srcset = null
-    sizes = null
+    format = null
 
     renderer = Neos.Fusion:Case {
-
         lazy {
             condition = ${props.lazy}
-            renderer = afx`
-                <source @if.has={props.imageSource}
-                    media={props.media}
-                    type={props.type}
-                    data-srcset={props.imageSource.srcset(props.srcset)}
-                    data-srcset.@if.has={props.srcset}
-                    data-sizes={props.sizes}
-                    data-sizes.@process.join={Type.isArray(value) ? Array.join(value, ', ') : value}
-                />
-            `
+            renderer = Neos.Fusion:Component {
+
+                # apply the format to the imageSource
+                imageSource = ${props.imageSource}
+                imageSource.@process.applyFormat = ${value.setFormat(props.format)}
+                imageSource.@process.applyFormat.@if.hasFormat = ${props.format}
+
+                # apply the format to the type
+                type = ${props.format ? 'image/' + props.format : props.type}
+                type.@process.applyFormat = ${'image/' + props.format}
+                type.@process.applyFormat.@if.hasFormat = ${props.format}
+
+                srcset = ${props.srcset}
+                sizes = ${props.sizes}
+                media = ${props.media}
+
+                renderer = afx`
+                    <source @if.has={props.imageSource}
+                        media={props.media}
+                        type={props.type}
+                        data-srcset={props.imageSource.srcset(props.srcset)}
+                        data-srcset.@if.has={props.srcset}
+                        data-sizes={props.sizes}
+                        data-sizes.@process.join={Type.isArray(value) ? Array.join(value, ', ') : value}
+                    />
+                `
+            }
         }
 
         default {
