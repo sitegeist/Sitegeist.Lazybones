@@ -48,30 +48,52 @@ prototype(Sitegeist.Lazybones:Image) < prototype(Neos.Fusion:Component) {
     alt = null
     title = null
     class = null
+    width = null
+    height = null
+    format = null
     dimensions = true
 
     renderer = Neos.Fusion:Case {
 
         lazy {
             condition = ${props.lazy}
-            renderer = afx`
-                <img @if.has={props.imageSource}
-                    src={props.lazyWidth ? props.imageSource.setWidth(props.lazyWidth, true) : null}
+            renderer = Neos.Fusion:Component {
 
-                    data-src={props.imageSource}
-                    data-srcset={props.imageSource.srcset(props.srcset)}
-                    data-srcset.@if.has={props.srcset}
-                    data-sizes={props.sizes}
-                    data-sizes.@process.join={Type.isArray(value) ? Array.join(value, ', ') : value}
+                # apply format, width and height to the imageSource
+                imageSource = ${props.imageSource}
+                imageSource.@process.applyWidth = ${props.width ? value.setWidth(props.width) : value}
+                imageSource.@process.applyHeight = ${props.height ? value.setHeight(props.height) : value}
+                imageSource.@process.applyFormat = ${props.format ? value.setFormat(props.format) : value}
 
-                    width={props.dimensions ? props.imageSource.currentWidth : null}
-                    height={props.dimensions ? props.imageSource.currentHeight : null}
+                srcset = ${props.srcset}
+                sizes = ${props.sizes}
+                alt =  ${props.alt}
+                title = ${props.title}
+                class = ${props.class}
+                dimensions = ${props.dimensions}
 
-                    class={props.class ? props.class + ' ' + props.lazyClass : props.lazyClass}
-                    alt={props.alt}
-                    title={props.title}
-                />
-            `
+                lazyClass = ${props.lazyClass}
+                lazyWidth = ${props.lazyWidth}
+
+                renderer = afx`
+                    <img @if.has={props.imageSource}
+                        src={props.lazyWidth ? props.imageSource.setWidth(props.lazyWidth, true) : null}
+
+                        data-src={props.imageSource.src()}
+                        data-srcset={props.imageSource.srcset(props.srcset)}
+                        data-srcset.@if.has={props.srcset}
+                        data-sizes={props.sizes}
+                        data-sizes.@process.join={Type.isArray(value) ? Array.join(value, ', ') : value}
+
+                        width={props.dimensions ? props.imageSource.currentWidth : null}
+                        height={props.dimensions ? props.imageSource.currentHeight : null}
+
+                        class={props.class ? props.class + ' ' + props.lazyClass : props.lazyClass}
+                        alt={props.alt}
+                        title={props.title}
+                    />
+                `
+            }
         }
 
         default {

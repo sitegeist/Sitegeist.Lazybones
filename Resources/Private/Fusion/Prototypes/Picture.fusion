@@ -32,6 +32,8 @@ prototype(Sitegeist.Lazybones:Picture) < prototype(Neos.Fusion:Component) {
     sizes = null
     sources = null
     formats = null
+    width = null
+    height = null
     alt = null
     title = null
     class = null
@@ -46,52 +48,77 @@ prototype(Sitegeist.Lazybones:Picture) < prototype(Neos.Fusion:Component) {
         __imageSource = ${this.imageSource}
         __srcset = ${this.srcset}
         __sizes = ${this.sizes}
+        __width = ${this.width}
+        __height = ${this.height}
     }
 
     renderer = Neos.Fusion:Case {
 
         lazy {
             condition = ${props.lazy}
-            renderer = afx`
-                <picture @if.has={props.imageSource} class={props.class ? props.class + ' ' + props.lazyClass : props.lazyClass }>
-                    {props.content}
-                    <Neos.Fusion:Collection collection={props.sources} itemName="source" @if.has={props.sources}>
-                        <Sitegeist.Lazybones:Source
-                            lazy={props.lazy}
-                            imageSource={source.imageSource ? source.imageSource : props.imageSource}
-                            type={source.type}
-                            media={source.media}
-                            format={source.format}
-                            srcset={source.srcset ? source.srcset : props.srcset}
-                            sizes={source.sizes ? source.sizes : props.sizes}
+            renderer = Neos.Fusion:Component {
+
+                # apply format, width and height to the imageSource
+                imageSource = ${props.imageSource}
+                imageSource.@process.applyWidth = ${props.width ? value.setWidth(props.width) : value}
+                imageSource.@process.applyHeight = ${props.height ? value.setHeight(props.height) : value}
+                imageSource.@process.applyFormat = ${props.format ? value.setFormat(props.format) : value}
+
+                srcset = ${props.srcset}
+                sizes = ${props.sizes}
+                sources = ${props.sources}
+                formats = ${props.formats}
+                width = ${props.width}
+                height = ${props.height}
+                alt = ${props.alt}
+                title = ${props.title}
+                class = ${props.class}
+                content = ${props.content}
+                dimensions = ${Type.isBoolean(props.dimensions) ? props.dimensions : (!props.content && !props.sources)}
+
+                lazyClass = ${props.lazyClass}
+                lazyWidth = ${props.lazyWidth}
+
+                renderer = afx`
+                    <picture @if.has={props.imageSource} class={props.class ? props.class + ' ' + props.lazyClass : props.lazyClass }>
+                        {props.content}
+                        <Neos.Fusion:Collection collection={props.sources} itemName="source" @if.has={props.sources}>
+                            <Sitegeist.Lazybones:Source
+                                lazy={props.lazy}
+                                imageSource={source.imageSource ? source.imageSource : props.imageSource}
+                                type={source.type}
+                                media={source.media}
+                                format={source.format}
+                                width={source.width}
+                                height={source.height}
+                                srcset={source.srcset ? source.srcset : props.srcset}
+                                sizes={source.sizes ? source.sizes : props.sizes}
+                            />
+                        </Neos.Fusion:Collection>
+                        <Neos.Fusion:Collection
+                            @if.has={props.imageSource && props.formats}
+                            collection={Type.isArray(props.formats) ? props.formats : String.split(props.formats, ',')}
+                            itemName="format"
+                        >
+                            <Sitegeist.Lazybones:Source format={String.trim(format)} />
+                        </Neos.Fusion:Collection>
+                        <Sitegeist.Lazybones:Image
+                            lazy
+                            lazyClass={props.lazyClass}
+                            lazyWidth={props.lazyWidth}
+
+                            imageSource={props.imageSource}
+                            sizes={props.sizes}
+                            srcset={props.srcset}
+                            alt={props.alt}
+                            title={props.title}
+
+                            dimensions={props.dimensions}
                         />
-                    </Neos.Fusion:Collection>
-                    <Neos.Fusion:Collection
-                        @if.has={props.imageSource && props.formats}
-                        collection={Type.isArray(props.formats) ? props.formats : String.split(props.formats, ',')}
-                        itemName="format"
-                    >
-                        <Sitegeist.Lazybones:Source format={String.trim(format)} />
-                    </Neos.Fusion:Collection>
-                    <Sitegeist.Lazybones:Image
-                        lazy={props.lazy}
-                        lazyClass={props.lazyClass}
-                        lazyWidth={props.lazyWidth}
-
-                        imageSource={props.imageSource}
-                        sizes={props.sizes}
-                        srcset={props.srcset}
-                        alt={props.alt}
-                        title={props.title}
-
-                        dimensions={!props.content && !props.sources}
-                        dimensions.@override.fromProps={props.dimensions}
-                        dimensions.@override.fromProps.@if.isBoolean={Type.isBoolean(props.dimensions)}
-                    />
-                </picture>
-            `
+                    </picture>
+                `
+            }
         }
-
         default {
             condition = true
             renderer = afx`
