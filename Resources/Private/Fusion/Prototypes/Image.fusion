@@ -78,8 +78,11 @@ prototype(Sitegeist.Lazybones:Image) < prototype(Neos.Fusion:Component) {
 
                 renderer = afx`
                     <img
-                        src={props.lazyWidth ? props.imageSource.setWidth(props.lazyWidth, true) : ""}
-                        srcset=""
+                        src={props.lazyWidth ? props.imageSource.setWidth(props.lazyWidth, true) : null}
+                        src.@process.svgPlaceholder={"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 " + props.imageSource.currentWidth + " " + props.imageSource.currentHeight + "'></svg>"}
+                        src.@process.svgPlaceholder.@if.isEmpty={!value}
+                        src.@process.svgPlaceholder.@if.dimensionsRenderingIsEnabled={props.renderDimensionAttributes}
+                        src.@process.svgPlaceholder.@if.dimensionsAreAvailable={props.imageSource.currentWidth && props.imageSource.currentHeight}
 
                         data-src={props.imageSource.src()}
                         data-srcset={props.imageSource.srcset(props.srcset)}
