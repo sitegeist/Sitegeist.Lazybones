@@ -93,10 +93,10 @@ Props from `Sitegeist.Kaleidoscope:Picture`:
    - `sizes`: sizes attribute (string or array)
    - `width`: (optional) the base width, will be applied to the `imageSource`
    - `height`: (optional) the base height, will be applied to the `imageSource`
-   - `format`:  the image-format for the source like `webp` or `png`, is applied to `imageSource` and `type` 
+   - `format`: (optional) the image-format for the source like `webp` or `png`, is applied to `imageSource` and `type` 
 - `srcset`: media descriptors like '1.5x' or '600w' of the default image (string or array)
 - `sizes`: sizes attribute of the default image (string or array)
-- `formats`: image formats that will be rendered as sources of separate type (string or array)
+- `formats`: (optional) image formats that will be rendered as sources of separate type (string or array)
 - `width`: (optional) the base width, will be applied to the `imageSource`
 - `height`: (optional) the base height, will be applied to the `imageSource`
 - `alt`: alt-attribute for the picture tag
