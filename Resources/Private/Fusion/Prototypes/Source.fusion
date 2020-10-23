@@ -6,17 +6,11 @@ prototype(Sitegeist.Lazybones:Source) < prototype(Neos.Fusion:Component) {
     lazy = Sitegeist.Lazybones:Lazy.Enabled
 
     imageSource = null
-    imageSource.@process.applyFromPicture = ${!value ? __imageSource : value}
     srcset = null
-    srcset.@process.applyFromPicture = ${!value ? __srcset : value}
     sizes = null
-    sizes.@process.applyFromPicture = ${!value ? __sizes : value}
     width = null
-    width.@process.applyFromPicture = ${!value ? __width : value}
     height = null
-    height.@process.applyFromPicture = ${!value ? __height : value}
     format = null
-    format.@process.applyFromPicture = ${!value ? __format : value}
     type = null
     media = null
 
@@ -25,23 +19,29 @@ prototype(Sitegeist.Lazybones:Source) < prototype(Neos.Fusion:Component) {
             condition = ${props.lazy}
             renderer = Neos.Fusion:Component {
 
-                # apply format, width and height to the imageSource
-                imageSource = ${props.imageSource}
-                imageSource.@process.applyWidth = ${props.width ? value.setWidth(props.width) : value}
-                imageSource.@process.applyHeight = ${props.height ? value.setHeight(props.height) : value}
-                imageSource.@process.applyFormat = ${props.format ? value.setFormat(props.format) : value}
+                @context {
+                    imageSource = ${props.imageSource || __imageSource}
+                    format = ${props.format || __format}
+                    width = ${props.width || __width}
+                    height = ${props.height || __height}
+                    srcset = ${props.srcset || __srcset}
+                    sizes = ${props.sizes || __sizes}
+                }
 
-                # apply the format to the type
-                type = ${props.format ? 'image/' + props.format : props.type}
-                type.@process.applyFormat = ${'image/' + props.format}
-                type.@process.applyFormat.@if.hasFormat = ${props.format}
+                @if.hasImageSource = ${imageSource && Type.instance(imageSource, '\\Sitegeist\\Kaleidoscope\\EelHelpers\\ImageSourceHelperInterface')}
 
-                srcset = ${props.srcset}
-                sizes = ${props.sizes}
+                imageSource = ${imageSource}
+                imageSource.@process.applyWidth = ${props.width ? value.setWidth(width) : value}
+                imageSource.@process.applyHeight = ${props.height ? value.setHeight(height) : value}
+                imageSource.@process.applyFormat = ${props.format ? value.setFormat(format) : value}
+
+                type = ${format ? 'image/' + format : props.type}
+                srcset = ${srcset}
+                sizes = ${sizes}
                 media = ${props.media}
 
                 renderer = afx`
-                    <source @if.has={props.imageSource}
+                    <source
                         media={props.media}
                         type={props.type}
                         data-srcset={props.imageSource.srcset(props.srcset)}

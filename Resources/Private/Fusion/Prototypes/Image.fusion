@@ -51,13 +51,14 @@ prototype(Sitegeist.Lazybones:Image) < prototype(Neos.Fusion:Component) {
     width = null
     height = null
     format = null
-    dimensions = true
+    renderDimensionAttributes = true
 
     renderer = Neos.Fusion:Case {
 
         lazy {
             condition = ${props.lazy}
             renderer = Neos.Fusion:Component {
+                @if.hasImageSource = ${props.imageSource && Type.instance(props.imageSource, '\\Sitegeist\\Kaleidoscope\\EelHelpers\\ImageSourceHelperInterface')}
 
                 # apply format, width and height to the imageSource
                 imageSource = ${props.imageSource}
@@ -70,13 +71,13 @@ prototype(Sitegeist.Lazybones:Image) < prototype(Neos.Fusion:Component) {
                 alt =  ${props.alt}
                 title = ${props.title}
                 class = ${props.class}
-                dimensions = ${props.dimensions}
+                renderDimensionAttributes = ${props.renderDimensionAttributes}
 
                 lazyClass = ${props.lazyClass}
                 lazyWidth = ${props.lazyWidth}
 
                 renderer = afx`
-                    <img @if.has={props.imageSource}
+                    <img
                         src={props.lazyWidth ? props.imageSource.setWidth(props.lazyWidth, true) : null}
 
                         data-src={props.imageSource.src()}
@@ -85,8 +86,8 @@ prototype(Sitegeist.Lazybones:Image) < prototype(Neos.Fusion:Component) {
                         data-sizes={props.sizes}
                         data-sizes.@process.join={Type.isArray(value) ? Array.join(value, ', ') : value}
 
-                        width={props.dimensions ? props.imageSource.currentWidth : null}
-                        height={props.dimensions ? props.imageSource.currentHeight : null}
+                        width={props.renderDimensionAttributes ? props.imageSource.currentWidth : null}
+                        height={props.renderDimensionAttributes ? props.imageSource.currentHeight : null}
 
                         class={props.class ? props.class + ' ' + props.lazyClass : props.lazyClass}
                         alt={props.alt}

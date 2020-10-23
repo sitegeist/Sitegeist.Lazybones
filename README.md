@@ -67,7 +67,7 @@ Props from `Sitegeist.Kaleidoscope:Image`:
 - `alt`: alt-attribute for the img tag
 - `title`: title attribute for the img tag
 - `class`: class attribute for the img tag
-- `dimensions`: render width/height attributes if data is available from the `imageSource` (boolean) 
+- `renderDimensionAttributes`: render width/height attributes if data is available from the `imageSource` (boolean) 
 
 ### `Sitegeist.Lazybones:Picture`
 
@@ -102,7 +102,7 @@ Props from `Sitegeist.Kaleidoscope:Picture`:
 - `alt`: alt-attribute for the picture tag
 - `title`: title attribute for the picture tag
 - `class`: class attribute for the picture tag
-- `dimensions`: render dimension attributes (width/height) for the img-tag when the data is available from the imageSource
+- `renderDimensionAttributes`: render dimension attributes (width/height) for the img-tag when the data is available from the imageSource
 
 ### `Sitegeist.Lazybones:Source`
 
