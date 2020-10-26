@@ -6,25 +6,51 @@ prototype(Sitegeist.Lazybones:Source) < prototype(Neos.Fusion:Component) {
     lazy = Sitegeist.Lazybones:Lazy.Enabled
 
     imageSource = null
-    type = null
-    media = null
     srcset = null
     sizes = null
+    width = null
+    height = null
+    format = null
+    type = null
+    media = null
 
     renderer = Neos.Fusion:Case {
-
         lazy {
             condition = ${props.lazy}
-            renderer = afx`
-                <source @if.has={props.imageSource}
-                    media={props.media}
-                    type={props.type}
-                    data-srcset={props.imageSource.srcset(props.srcset)}
-                    data-srcset.@if.has={props.srcset}
-                    data-sizes={props.sizes}
-                    data-sizes.@process.join={Type.isArray(value) ? Array.join(value, ', ') : value}
-                />
-            `
+            renderer = Neos.Fusion:Component {
+
+                @context {
+                    imageSource = ${props.imageSource || __imageSource}
+                    format = ${props.format || __format}
+                    width = ${props.width || __width}
+                    height = ${props.height || __height}
+                    srcset = ${props.srcset || __srcset}
+                    sizes = ${props.sizes || __sizes}
+                }
+
+                @if.hasImageSource = ${imageSource && Type.instance(imageSource, '\\Sitegeist\\Kaleidoscope\\EelHelpers\\ImageSourceHelperInterface')}
+
+                imageSource = ${imageSource}
+                imageSource.@process.applyWidth = ${props.width ? value.setWidth(width) : value}
+                imageSource.@process.applyHeight = ${props.height ? value.setHeight(height) : value}
+                imageSource.@process.applyFormat = ${props.format ? value.setFormat(format) : value}
+
+                type = ${format ? 'image/' + format : props.type}
+                srcset = ${srcset}
+                sizes = ${sizes}
+                media = ${props.media}
+
+                renderer = afx`
+                    <source
+                        media={props.media}
+                        type={props.type}
+                        data-srcset={props.imageSource.srcset(props.srcset)}
+                        data-srcset.@if.has={props.srcset}
+                        sizes={props.sizes}
+                        sizes.@process.join={Type.isArray(value) ? Array.join(value, ', ') : value}
+                    />
+                `
+            }
         }
 
         default {

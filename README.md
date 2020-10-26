@@ -57,14 +57,17 @@ Props:
 - `lazyClass`: The class to attach to the img-tags (string, defaults to `Sitegeist.Lazybones:Lazy.ClassName`)
 - `lazyWidth`: The width of the thumbnail-src that is loaded first  (string, defaults to `Sitegeist.Lazybones:Lazy.Width`)
 
-
 Props from `Sitegeist.Kaleidoscope:Image`:
 - `imageSource`: the imageSource to render
-- `srcset`: media descriptors like '1.5x' or '600w' of the default image (string ot array)
+- `srcset`: media descriptors like '1.5x' or '600w' of the default image (string or array)
 - `sizes`: sizes attribute of the default image (string or array)
+- `format`: (optional) the image-format like `webp` or `png`, will be applied to the `imageSource`
+- `width`: (optional) the base width, will be applied to the `imageSource`
+- `height`: (optional) the base height, will be applied to the `imageSource`
 - `alt`: alt-attribute for the img tag
 - `title`: title attribute for the img tag
 - `class`: class attribute for the img tag
+- `renderDimensionAttributes`: render width/height attributes if data is available from the `imageSource` (boolean) 
 
 ### `Sitegeist.Lazybones:Picture`
 
@@ -86,14 +89,20 @@ Props from `Sitegeist.Kaleidoscope:Picture`:
    - `media`: the media query of this source
    - `type`: the type of this source
    - `imageSource`: alternate image-source for art direction purpose
-   - `srcset`: media descriptors like '1.5x' or '600w' (string ot array)
-   - `sizes`: sizes attribute (string ot array)
-- `srcset`: media descriptors like '1.5x' or '600w' of the default image (string ot array)
-- `sizes`: sizes attribute of the default image (string ot array)
+   - `srcset`: media descriptors like '1.5x' or '600w' (string or array)
+   - `sizes`: sizes attribute (string or array)
+   - `width`: (optional) the base width, will be applied to the `imageSource`
+   - `height`: (optional) the base height, will be applied to the `imageSource`
+   - `format`: (optional) the image-format for the source like `webp` or `png`, is applied to `imageSource` and `type` 
+- `srcset`: media descriptors like '1.5x' or '600w' of the default image (string or array)
+- `sizes`: sizes attribute of the default image (string or array)
+- `formats`: (optional) image formats that will be rendered as sources of separate type (string or array)
+- `width`: (optional) the base width, will be applied to the `imageSource`
+- `height`: (optional) the base height, will be applied to the `imageSource`
 - `alt`: alt-attribute for the picture tag
 - `title`: title attribute for the picture tag
 - `class`: class attribute for the picture tag
-
+- `renderDimensionAttributes`: render dimension attributes (width/height) for the img-tag when the data is available from the imageSource
 
 ### `Sitegeist.Lazybones:Source`
 
@@ -107,10 +116,13 @@ Props:
 
 Props from `Sitegeist.Kaleidoscope:Source`:
 - `imageSource`: the imageSource to render
-- `srcset`: media descriptors like '1.5x' or '600w' of the default image (string ot array)
+- `srcset`: media descriptors like '1.5x' or '600w' of the default image (string or array)
 - `sizes`: sizes attribute of the default image (string or array)
 - `media`: the media query of this source
 - `type`: the type of this source
+- `width`: (optional) the base width, will be applied to the `imageSource`
+- `height`: (optional) the base height, will be applied to the `imageSource`
+- `format`: the image-format for the source like `webp` or `png`, is applied to `imageSource` and `type`
 
 ### `Sitegeist.Lazybones:Lazy.Enabled`
 
