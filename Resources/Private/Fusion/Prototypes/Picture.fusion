@@ -34,7 +34,7 @@ prototype(Sitegeist.Lazybones:Picture) < prototype(Neos.Fusion:Component) {
     formats = null
     width = null
     height = null
-    alt = null
+    alt = ''
     title = null
     class = null
     content = ''
