@@ -85,7 +85,7 @@ prototype(Sitegeist.Lazybones:Picture) < prototype(Neos.Fusion:Component) {
                         {props.content}
                         <Neos.Fusion:Collection collection={props.sources} itemName="source" @if.has={props.sources}>
                             <Sitegeist.Lazybones:Source
-                                lazy={props.lazy}
+                                lazy
                                 imageSource={source.imageSource ? source.imageSource : props.imageSource}
                                 type={source.type}
                                 media={source.media}
