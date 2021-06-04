@@ -45,7 +45,7 @@ prototype(Sitegeist.Lazybones:Image) < prototype(Neos.Fusion:Component) {
     imageSource = null
     srcset = null
     sizes = null
-    alt = ''
+    alt = null
     title = null
     class = null
     width = null
@@ -94,8 +94,8 @@ prototype(Sitegeist.Lazybones:Image) < prototype(Neos.Fusion:Component) {
                         height={props.renderDimensionAttributes ? props.imageSource.currentHeight : null}
 
                         class={props.class ? props.class + ' ' + props.lazyClass : props.lazyClass}
-                        alt={props.alt}
-                        title={props.title}
+                        alt={props.alt || props.imageSource.alt() || ''}
+                        title={props.title || props.imageSource.title()}
                     />
                 `
             }
