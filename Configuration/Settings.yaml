@@ -3,3 +3,7 @@ Neos:
     fusion:
       autoInclude:
         Sitegeist.Lazybones: true
+Sitegeist:
+  Lazybones:
+    default:
+      lazyEnabled: true
