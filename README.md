@@ -20,6 +20,18 @@ by our employer http://www.sitegeist.de.*
 Sitegeist.Lazybones is available via packagist run `composer require sitegeist/lazybones`.
 We use semantic-versioning so every breaking change will increase the major-version number.
 
+## Settings 
+
+The default-lazyness is controlled by the setting 'Sitegeist.Lazybones.default.lazyEnabled' 
+and is active by default except in `FLOW_CONTEXT=Development/VisualRegressionTesting`.
+
+```
+Sitegeist:
+  Lazybones:
+    default:
+      lazyEnabled: true
+```
+
 ## Usage
 
 ### LazyloadJS
@@ -128,6 +140,9 @@ Props from `Sitegeist.Kaleidoscope:Source`:
 
 Boolean value prototype with default value `true` that defines whether lazyness is enabled or not.
 Override the `value` of this prototype globally or for specific parts of your fusion. 
+
+NOTE: The default value comes from the configuration 'Sitegeist.Lazybones.default.lazyEnabled' and is active by default 
+except in `FLOW_CONTEXT=Development/VisualRegressionTesting`.
 
 ### `Sitegeist.Lazybones:Lazy.ClassName`
 
