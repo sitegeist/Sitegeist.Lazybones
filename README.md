@@ -167,11 +167,6 @@ content = Neos.Neos:ContentCollection {
     prototype(Sitegeist.Lazybones:Lazy.Enabled) {
         value = ${!mainContentIterator.isFirst}
     }
-    
-    // preload 150px variants of the images 
-    prototype(Sitegeist.Lazybones:Lazy.Width) {
-        value = 150
-    }
 }
 ```
 
