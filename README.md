@@ -1,7 +1,11 @@
 # Sitegeist.Lazybones
+
+## !!! With the general availability of loading="lazy" for images in webbrowsers this package is obsolete. Please use Sitegeist.Kaleidoscope directly !!! 
+
 ### Responsive Images for Neos - with Atomic.Fusion & Monocle in mind
 
 This package implements Lazy Loading for Responsive Images from the [Sitegeist.Kaleidoscope](https://github.com/sitegeist/Sitegeist.Kaleidoscope) package.
+
 
 This is implemented by rendering the `src`, `srcset` and `sizes` attributes as `data-src`, `data-srcset`
 and `data-sizes`. The img- or pPicture-tag is then marked with the class `lazyload` to
