@@ -101,7 +101,10 @@ prototype(Sitegeist.Lazybones:Picture) < prototype(Neos.Fusion:Component) {
                             collection={Type.isArray(props.formats) ? props.formats : String.split(props.formats, ',')}
                             itemName="format"
                         >
-                            <Sitegeist.Lazybones:Source format={String.trim(format)} />
+                            <Sitegeist.Lazybones:Source
+                                imageSource={props.imageSource}
+                                format={String.trim(format)}
+                                />
                         </Neos.Fusion:Collection>
                         <Sitegeist.Lazybones:Image
                             lazy
